@@ -1,0 +1,12 @@
+uvicorn
+gunicorn
+glob2
+opencv-python-headless
+numpy
+tensorflow_hub
+tensorflow
+matplotlib
+fastapi
+sockets
+python-multipart
+accelerate
