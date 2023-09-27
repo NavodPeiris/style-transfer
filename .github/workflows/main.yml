@@ -1,0 +1,32 @@
+name: Deploy to ECR
+
+on:
+  push:
+    branches: main
+
+jobs:
+
+  build:
+
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Login to Public ECR
+        uses: docker/login-action@v3
+        with:
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          AWS_REGION: us-east-1
+
+      - name: Push to ECR
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t public.ecr.aws/i0c1z9z6/photolab:style-transfer .
+          docker push public.ecr.aws/i0c1z9z6/photolab:style-transfer
